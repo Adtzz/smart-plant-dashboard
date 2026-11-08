@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#166534">
+  <meta name="description" content="Smart Plant - dashboard monitoring dan penyiraman tanaman otomatis.">
+  <title>Smart Plant | Dashboard</title>
+  
+  <!-- Manifest & Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/img/plant-icon.svg" type="image/svg+xml">
+  
+  <!-- CSS Stylesheets -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar d-none d-lg-flex">
+      <a class="brand" href="#">
+        <img src="/assets/img/plant-icon.svg" alt="plant-logo" class="brand-mark">
+        <span class="brand-dark">Smart<span class="brand-light"> Plant</span></span>
+      </a>
+      <div class="sidebar-label">MENU UTAMA</div>
+      <nav class="nav flex-column side-nav">
+        <a class="nav-link active" href="#overview" data-section="overview"><i class="bi bi-grid"></i> Overview</a>
+        <a class="nav-link" href="#monitoring" data-section="monitoring"><i class="bi bi-activity"></i> Monitoring</a>
+        <a class="nav-link" href="#control" data-section="control"><i class="bi bi-sliders"></i> Control</a>
+        <a class="nav-link" href="#settings" data-section="settings"><i class="bi bi-gear"></i> Settings</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="device-mini">
+          <div class="device-icon"><i class="bi bi-cpu"></i></div>
+          <div>
+            <strong>ESP32 Device</strong>
+            <small><span class="online-dot"></span> Menunggu koneksi</small>
+          </div>
+        </div>
+        <div class="sidebar-footer">Smart Plant <span>v1.0.0</span></div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="d-flex align-items-center gap-3">
+          <div class="mobile-brand d-lg-none">
+            <span class="brand-mark"><i class="bi bi-flower1"></i></span>
+            <strong class="brand-dark">Smart<span class="brand-light"> Plant</span></strong>
+          </div>
+          <div class="page-heading d-none d-sm-block">
+            <span class="eyebrow">SMART GARDEN SYSTEM</span>
+            <h1 id="pageTitle">Overview</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="connection-pill">
+            <span class="online-dot"></span>
+            <span id="connectionText">Demo mode</span>
+          </div>
+          <button class="avatar" type="button" aria-label="Profil pengguna">F</button>
+        </div>
+      </header>
+
+      <!-- Content Wrap -->
+      <div class="content-wrap">
+        <!-- Overview Section -->
+        <section id="overview" class="page-section active-section">
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow mb-1" id="todayLabel">SMART PLANT MONITORING</p>
+              <h2>Selamat datang, Fuad! <span class="wave">🌱</span></h2>
+              <p class="muted mb-0">Pantau kondisi tanaman dan kendalikan penyiraman dari satu tempat.</p>
+            </div>
+            <div class="last-update">
+              <i class="bi bi-clock-history"></i> Update: <span id="lastUpdate">--:--:--</span>
+            </div>
+          </div>
+
+          <!-- Metrics Row -->
+          <!-- Overview Hero Grid -->
+          <div class="overview-hero-grid mt-1">
+
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+              <img src="assets/img/hero-bg.webp" alt="Smart Plant Banner">
+              <div class="hero-banner-overlay">
+                <span class="hero-label">SMART GARDEN SYSTEM</span>
+                <h3>Grow Smarter,<br>Live Greener.</h3>
+                <p>Monitor and care for your plants with intelligent automation.</p>
+              </div>
+            </div>
+
+            <!-- Right Side Cards -->
+            <div class="overview-metrics">
+              <!-- Pump Status Card -->
+              <article class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-icon green"><i class="bi bi-power"></i></span>
+                  <span class="metric-tag tag-neutral" id="pumpBadge">Standby</span>
+                </div>
+                <p class="metric-label">Status pompa</p>
+                <div class="metric-value" id="pumpValue">OFF</div>
+                <p class="metric-description mb-0" id="pumpDescription">
+                  Pompa tidak sedang menyiram.
+                </p>
+                <div class="metric-foot mt-auto">
+                  <span><i class="bi bi-shield-check me-1"></i>Proteksi durasi aktif</span>
+                </div>
+              </article>
+              
+              <!-- Soil Moisture Card -->
+              <article class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-icon blue"><i class="bi bi-droplet-half"></i></span>
+                  <span class="metric-tag tag-warning" id="moistureCondition">Cukup kering</span>
+                </div>
+                <p class="metric-label">Kelembapan tanah</p>
+                <div class="metric-value">
+                  <span id="moistureValue">42</span><small>%</small>
+                </div>
+                <div class="progress metric-progress">
+                  <div id="moistureBar" class="progress-bar moisture-bar" style="width: 42%"></div>
+                </div>
+                <div class="metric-foot">
+                  <span>0% Kering</span>
+                  <span>100% Basah</span>
+                </div>
+              </article>
+
+              <!-- Device Card -->
+              <article class="metric-card">
+                <div class="metric-top">
+                  <span class="metric-icon purple"><i class="bi bi-cpu"></i></span>
+                  <span class="metric-tag tag-neutral" id="deviceBadge">Demo</span>
+                </div>
+                <p class="metric-label">Perangkat</p>
+                <div class="metric-value device-value">ESP32</div>
+                <p class="metric-description mb-0">
+                  Koneksi lokal melalui hotspot HP.
+                </p>
+                <div class="metric-foot mt-auto">
+                  <span><i class="bi bi-wifi me-1"></i><span id="deviceStatus">Belum terhubung</span></span>
+                </div>
+              </article>
+
+            </div>
+          </div>
+          <!-- Chart & Config Summary Row -->
+          <div class="row g-3 g-xl-4 mt-1">
+            <div class="col-12 col-xl-8">
+              <article class="panel-card h-100">
+                <div class="panel-header">
+                  <div>
+                    <h3>Riwayat kelembapan</h3>
+                    <p>Simulasi perubahan kelembapan tanah</p>
+                  </div>
+                  <span class="chart-period">Hari ini <i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="chart-wrap">
+                  <canvas id="moistureChart" aria-label="Grafik kelembapan tanah" role="img"></canvas>
+                </div>
+                <div class="chart-legend">
+                  <span><i></i> Kelembapan tanah (%)</span>
+                  <small>Data simulasi</small>
+                </div>
+              </article>
+            </div>
+            <div class="col-12 col-xl-4">
+              <article class="panel-card h-100">
+                <div class="panel-header">
+                  <div>
+                    <h3>Pengaturan aktif</h3>
+                    <p>Konfigurasi penyiraman</p>
+                  </div>
+                  <i class="bi bi-sliders panel-heading-icon"></i>
+                </div>
+                <div class="setting-summary">
+                  <div><span>Mode</span><strong id="activeModeSummary">Sensor</strong></div>
+                  <div><span>Batas kering</span><strong id="thresholdSummary">35%</strong></div>
+                  <div><span>Interval jadwal</span><strong id="intervalSummary">5 jam</strong></div>
+                  <div><span>Durasi pompa</span><strong id="durationSummary">5 detik</strong></div>
+                </div>
+                <button class="btn btn-soft w-100 mt-3" data-go="settings">
+                  Atur konfigurasi <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Monitoring Section -->
+        <section id="monitoring" class="page-section">
+          <div class="section-intro">
+            <p class="eyebrow">DATA PERANGKAT</p>
+            <h2>Monitoring</h2>
+            <p class="muted">Pantau pembacaan sensor dan kondisi perangkat.</p>
+          </div>
+          <div class="row g-3">
+            <div class="col-12 col-lg-6">
+              <article class="panel-card">
+                <div class="panel-header">
+                  <div>
+                    <h3>Kelembapan saat ini</h3>
+                    <p>Nilai simulasi sensor tanah</p>
+                  </div>
+                  <span class="metric-icon blue"><i class="bi bi-moisture"></i></span>
+                </div>
+                <div class="monitor-big">
+                  <span id="monitorMoisture">42</span><small>%</small>
+                </div>
+                <div class="progress metric-progress">
+                  <div id="monitorMoistureBar" class="progress-bar moisture-bar" style="width: 42%"></div>
+                </div>
+                <p class="muted small mt-3 mb-0">Nilai sensor aktual akan ditampilkan setelah ESP32 terintegrasi.</p>
+              </article>
+            </div>
+            <div class="col-12 col-lg-6">
+              <article class="panel-card">
+                <div class="panel-header">
+                  <div>
+                    <h3>Status perangkat</h3>
+                    <p>Informasi koneksi sistem</p>
+                  </div>
+                  <span class="metric-icon purple"><i class="bi bi-cpu"></i></span>
+                </div>
+                <div class="setting-summary">
+                  <div><span>Mikrokontroler</span><strong>ESP32</strong></div>
+                  <div><span>Koneksi</span><strong>Hotspot HP</strong></div>
+                  <div><span>Status API</span><strong id="apiStatus">Belum terhubung</strong></div>
+                  <div><span>Mode data</span><strong>Simulasi</strong></div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Control Section -->
+        <section id="control" class="page-section">
+          <div class="section-intro">
+            <p class="eyebrow">KENDALI PENYIRAMAN</p>
+            <h2>Control</h2>
+            <p class="muted">Pilih metode penyiraman sesuai kebutuhan tanaman.</p>
+          </div>
+          <article class="panel-card mb-3">
+            <div class="panel-header">
+              <div>
+                <h3>Mode penyiraman</h3>
+                <p>Pilih satu mode yang akan dijalankan.</p>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <button class="mode-card selected" data-mode="sensor">
+                  <span class="mode-icon blue"><i class="bi bi-moisture"></i></span>
+                  <strong>Sensor</strong>
+                  <small>Pompa aktif berdasarkan kelembapan tanah.</small>
+                  <span class="mode-check"><i class="bi bi-check-circle-fill"></i></span>
+                </button>
+              </div>
+              <div class="col-12 col-md-4">
+                <button class="mode-card" data-mode="schedule">
+                  <span class="mode-icon purple"><i class="bi bi-clock-history"></i></span>
+                  <strong>Schedule</strong>
+                  <small>Pompa aktif berdasarkan interval waktu.</small>
+                  <span class="mode-check"><i class="bi bi-check-circle-fill"></i></span>
+                </button>
+              </div>
+              <div class="col-12 col-md-4">
+                <button class="mode-card" data-mode="manual">
+                  <span class="mode-icon green"><i class="bi bi-hand-index-thumb"></i></span>
+                  <strong>Manual</strong>
+                  <small>Pompa dikendalikan langsung oleh pengguna.</small>
+                  <span class="mode-check"><i class="bi bi-check-circle-fill"></i></span>
+                </button>
+              </div>
+            </div>
+          </article>
+          <div class="row g-3">
+            <div class="col-12 col-lg-6">
+              <article class="panel-card h-100">
+                <div class="panel-header">
+                  <div>
+                    <h3>Kontrol pompa manual</h3>
+                    <p>Kontrol ini hanya simulasi pada versi frontend.</p>
+                  </div>
+                  <span class="metric-icon green"><i class="bi bi-power"></i></span>
+                </div>
+                <div class="manual-control">
+                  <div>
+                    <strong id="manualPumpState">Pompa OFF</strong>
+                    <small id="manualPumpHint">Pilih mode Manual untuk mengaktifkan kontrol.</small>
+                  </div>
+                  <button class="pump-toggle" id="pumpToggle" type="button" aria-pressed="false" disabled>
+                    <i class="bi bi-power"></i>
+                  </button>
+                </div>
+                <div class="alert-note">
+                  <i class="bi bi-info-circle"></i>
+                  <span>Pompa akan memiliki batas durasi otomatis setelah integrasi ESP32.</span>
+                </div>
+              </article>
+            </div>
+            <div class="col-12 col-lg-6">
+              <article class="panel-card h-100">
+                <div class="panel-header">
+                  <div>
+                    <h3>Ringkasan mode</h3>
+                    <p>Mode yang sedang dipilih</p>
+                  </div>
+                </div>
+                <div class="mode-summary">
+                  <span class="summary-mode-icon"><i class="bi bi-moisture" id="summaryModeIcon"></i></span>
+                  <div>
+                    <strong id="modeName">Sensor Mode</strong>
+                    <small id="modeDescription">Menggunakan pembacaan sensor kelembapan.</small>
+                  </div>
+                </div>
+                <div class="setting-summary mt-3">
+                  <div><span>Ambang kelembapan</span><strong id="controlThreshold">35%</strong></div>
+                  <div><span>Interval jadwal</span><strong id="controlInterval">5 jam</strong></div>
+                  <div><span>Durasi pompa</span><strong id="controlDuration">5 detik</strong></div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="page-section">
+          <div class="section-intro">
+            <p class="eyebrow">KONFIGURASI SISTEM</p>
+            <h2>Settings</h2>
+            <p class="muted">Atur parameter penyiraman tanaman.</p>
+          </div>
+          <div class="row g-3">
+            <div class="col-12 col-lg-7">
+              <article class="panel-card">
+                <div class="panel-header">
+                  <div>
+                    <h3>Pengaturan penyiraman</h3>
+                    <p>Nilai ini tersimpan di browser untuk demo.</p>
+                  </div>
+                  <i class="bi bi-sliders panel-heading-icon"></i>
+                </div>
+                <form id="settingsForm">
+                  <div class="setting-field">
+                    <div>
+                      <label for="thresholdInput" class="form-label">Batas kelembapan minimum</label>
+                      <small>Pompa aktif ketika nilai berada di bawah batas ini.</small>
+                    </div>
+                    <div class="input-group setting-input">
+                      <input type="number" min="5" max="90" class="form-control" id="thresholdInput" value="35" required>
+                      <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+                  <div class="setting-field">
+                    <div>
+                      <label for="intervalInput" class="form-label">Interval penyiraman</label>
+                      <small>Jarak waktu antarpenyiraman pada Schedule Mode.</small>
+                    </div>
+                    <div class="input-group setting-input">
+                      <input type="number" min="1" max="24" class="form-control" id="intervalInput" value="5" required>
+                      <span class="input-group-text">jam</span>
+                    </div>
+                  </div>
+                  <div class="setting-field">
+                    <div>
+                      <label for="durationInput" class="form-label">Durasi pompa</label>
+                      <small>Batas lama pompa menyala dalam satu siklus.</small>
+                    </div>
+                    <div class="input-group setting-input">
+                      <input type="number" min="1" max="60" class="form-control" id="durationInput" value="5" required>
+                      <span class="input-group-text">detik</span>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-wrap gap-2 mt-4">
+                    <button class="btn btn-primary-custom" type="submit">
+                      <i class="bi bi-check2 me-1"></i> Simpan pengaturan
+                    </button>
+                    <button class="btn btn-outline-secondary" type="reset" id="resetSettings">Reset</button>
+                  </div>
+                </form>
+              </article>
+            </div>
+            <div class="col-12 col-lg-5">
+              <article class="panel-card">
+                <div class="panel-header">
+                  <div>
+                    <h3>Informasi sistem</h3>
+                    <p>Detail prototype dashboard</p>
+                  </div>
+                </div>
+                <div class="setting-summary">
+                  <div><span>Nama perangkat</span><strong>Smart Plant</strong></div>
+                  <div><span>Mikrokontroler</span><strong>ESP32</strong></div>
+                  <div><span>Platform</span><strong>Web / PWA</strong></div>
+                  <div><span>Versi dashboard</span><strong>1.0.0</strong></div>
+                </div>
+                <div class="alert-note mt-3">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span>Pengaturan saat ini belum dikirim ke ESP32. Integrasi API dilakukan pada tahap berikutnya.</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer class="main-footer">
+        <span>© 2026 Smart Plant</span>
+        <span>Made for a greener space <i class="bi bi-heart-fill"></i></span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav d-lg-none" aria-label="Navigasi utama">
+    <a href="#overview" class="bottom-link active" data-section="overview"><i class="bi bi-grid"></i><span>Home</span></a>
+    <a href="#monitoring" class="bottom-link" data-section="monitoring"><i class="bi bi-activity"></i><span>Monitor</span></a>
+    <a href="#control" class="bottom-link" data-section="control"><i class="bi bi-sliders"></i><span>Control</span></a>
+    <a href="#settings" class="bottom-link" data-section="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+  </nav>
+
+  <!-- Notification Toast -->
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="appToast" class="toast align-items-center border-0" role="status" aria-live="polite" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMessage">Pengaturan berhasil disimpan.</div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Tutup"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Libraries & Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

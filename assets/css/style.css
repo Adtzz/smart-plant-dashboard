@@ -1,0 +1,1098 @@
+/* ==========================================
+   1. FONTS & ROOT VARIABLES
+   ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+:root {
+  --green: #166534;
+  --green-dark: #14532d;
+  --green-soft: #eaf4ec;
+  --sage: #86a789;
+  --bg: #f5f8f5;
+  --text: #1f2937;
+  --muted: #7b8794;
+  --border: #e8eee9;
+  --shadow: 0 5px 24px rgba(31, 55, 39, 0.045);
+
+  /* Default Dynamic Theme (Morning/Default) */
+  --bg-color: #FFF8EC;
+  --card-color: #FFFFFF;
+  --card-color-mode: #FFFFFF;
+  --text-color: #344438;
+  --muted-color: #849084;
+  --primary-color: #82A96B;
+  --border-color: #EAE5D9;
+}
+
+/* ==========================================
+   2. THEME DEFINITIONS
+   ========================================== */
+/* Tema Pagi */
+[data-theme="morning"] {
+  --bg-color: #FFF8EC;
+  --card-color: #FFFFFF;
+  --card-color-mode: #FFFFFF;
+  --text-color: #344438;
+  --muted-color: #849084;
+  --primary-color: #82A96B;
+  --border-color: #EAE5D9;
+}
+
+/* Tema Siang */
+[data-theme="afternoon"] {
+  --bg-color: #F2F8F4;
+  --card-color: #FFFFFF;
+  --card-color-mode: #FFFFFF;
+  --text-color: #263D32;
+  --muted-color: #82958A;
+  --primary-color: #319B72;
+  --border-color: #DFEAE2;
+}
+
+/* Tema Sore */
+[data-theme="evening"] {
+  --bg-color: #FFCC99;
+  --card-color: #F5E5CC;
+  --card-color-mode: #fff6e7;
+  --card-color-selected: #FFCC99;
+  --text-color: #493A32;
+  --text-card-title:#493A32;
+  --text-card-desc: #7D5A46;
+  --muted-color: #7d5a46;
+  --primary-color: #9a7b4d;
+  --border-color: #F0DFD2;
+}
+
+/* Tema Malam */
+[data-theme="night"] {
+  --bg-color: #17251F;
+  --card-color: #22342B;
+  --card-color-mode: #42544b;
+  --card-color-selected: #17251F;
+  --text-color: #EDF5EF;
+  --text-card-title:#EDF5EF;
+  --text-card-desc: #A2B5A7;
+  --muted-color: #A2B5A7;
+  --primary-color: #79C69A;
+  --border: #22342B;
+}
+
+/* ==========================================
+   3. GLOBAL & BASE STYLES
+   ========================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+/* Typography & Utilities */
+.brand,
+.mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  font: 800 20px 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.8px;
+}
+
+.brand {
+  padding: 0 10px 38px;
+}
+
+.brand-dark {
+    color: var(--primary-color);
+}
+
+.brand-light {
+  color: var(--text-color);
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: var(--green);
+  color: #fff;
+  font-size: 19px;
+}
+
+.sidebar-label,
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--primary-color);
+}
+
+.sidebar-label {
+  padding: 0 12px 12px;
+}
+
+.muted,
+.last-update {
+  color: var(--muted-color);
+}
+
+.last-update {
+  font-size: 11px;
+  padding-bottom: 4px;
+}
+
+.wave {
+  font-size: 21px;
+}
+
+.text-muted {
+  color: var(--muted-color) !important;
+}
+
+/* ==========================================
+   4. SIDEBAR NAVIGATION
+   ========================================== */
+.sidebar {
+  width: 250px;
+  position: fixed;
+  inset: 0 auto 0 0;
+  background-color: var(--card-color);
+  border-right: 1px solid var(--border-color);
+  padding: 28px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  transition: background-color 0.8s ease, border-color 0.8s ease;
+}
+
+.side-nav {
+  gap: 6px;
+}
+
+.side-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: var(--muted-color);
+  font-weight: 600;
+}
+
+.side-nav .nav-link i {
+  font-size: 17px;
+}
+
+.side-nav .nav-link:hover,
+.side-nav .nav-link.active {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.device-mini {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 10px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.device-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: #e5f1e7;
+  border-radius: 10px;
+  color: var(--green);
+  font-size: 17px;
+}
+
+.device-mini strong,
+.device-mini small {
+  display: block;
+}
+
+.device-mini strong {
+  font-size: 12px;
+}
+
+.device-mini small {
+  font-size: 10px;
+  color: var(--muted-color);
+  margin-top: 3px;
+}
+
+.online-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #22a06b;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.sidebar-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 5px 0;
+  color: var(--muted-color);
+  font-size: 10px;
+}
+
+/* ==========================================
+   5. TOPBAR HEADER
+   ========================================== */
+.main-content {
+  margin-left: 250px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: 82px;
+  background-color: var(--card-color);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 38px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+  transition: background-color 0.8s ease;
+}
+
+.page-heading h1 {
+  font: 700 18px 'Plus Jakarta Sans', sans-serif;
+  margin: 3px 0 0;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.connection-pill {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border);
+  padding: 8px 11px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.avatar {
+  border: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border);
+  font-weight: 700;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+/* ==========================================
+   6. CONTENT LAYOUT & CARDS
+   ========================================== */
+.content-wrap {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 30px 38px 20px;
+  flex: 1;
+}
+
+.welcome-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.welcome-row h2,
+.section-intro h2 {
+  font: 700 25px 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.7px;
+  margin: 5px 0 7px;
+}
+
+.page-section {
+  display: none;
+}
+
+.page-section.active-section {
+  display: block;
+}
+
+.section-intro {
+  margin-bottom: 22px;
+}
+
+.section-intro h2 {
+  margin-bottom: 5px;
+}
+
+.section-intro p:last-child {
+  font-size: 12px;
+}
+
+/* Cards (Metric, Panel, Standard Bootstrap Card override) */
+.card,
+.metric-card,
+.panel-card {
+  background-color: var(--card-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  transition: all 0.8s ease;
+}
+
+.metric-card,
+.panel-card {
+  height: 100%;
+  padding: 21px;
+  border: none;
+}
+
+.metric-card {
+  min-height: 185px;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 17px;
+}
+
+.metric-icon,
+.mode-icon {
+  width: 39px;
+  height: 39px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.blue { background: #e9f4fb; color: #3293c9; }
+.green { background: #eaf5ed; color: #27834b; }
+.purple { background: #f1edfb; color: #8064c5; }
+
+.metric-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 6px 9px;
+  border-radius: 20px;
+  background-color: var(--bg-color);
+}
+
+.tag-warning { background: #fff5df; color: #bd851a; }
+.tag-neutral { background: #f1f4f1; color: #7d897f; }
+
+.metric-label,
+.metric-foot,
+.metric-description {
+  color: var(--text-color);
+}
+
+.metric-label {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.metric-value {
+  font: 700 29px 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -1px;
+}
+
+.metric-value small,
+.monitor-big small {
+  font-size: 16px;
+  color: #89958c;
+  margin-left: 3px;
+}
+
+.device-value {
+  font-size: 26px;
+}
+
+.metric-description {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.metric-progress {
+  height: 6px;
+  background: #edf1ed;
+  border-radius: 20px;
+  margin-top: 12px;
+}
+
+.moisture-bar {
+  background: #4b9bba;
+  border-radius: 20px;
+}
+
+.metric-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  margin-top: 8px;
+}
+
+/* ==========================================
+   7. PANEL COMPONENTS & CHARTS
+   ========================================== */
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.panel-header h3 {
+  font: 700 14px 'Plus Jakarta Sans', sans-serif;
+  margin: 0 0 5px;
+}
+
+.panel-header p {
+  font-size: 11px;
+  color: var(--muted-color);
+  margin: 0;
+}
+
+.panel-heading-icon {
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.chart-period {
+  font-size: 10px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 7px 10px;
+  border-radius: 8px;
+}
+
+.chart-wrap {
+  height: 205px;
+  position: relative;
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  color: var(--muted-color);
+  font-size: 10px;
+}
+
+.chart-legend i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4b9bba;
+  margin-right: 6px;
+}
+
+.chart-legend small {
+  color: var(--muted-color);
+}
+
+.monitor-big {
+  font: 700 43px 'Plus Jakarta Sans', sans-serif;
+  margin: 20px 0 5px;
+}
+
+/* ==========================================
+   8. SETTINGS & CONTROLS
+   ========================================== */
+.setting-summary {
+  display: grid;
+  gap: 0;
+}
+
+.setting-summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bg-color);
+  font-size: 11px;
+}
+
+.setting-summary > div:last-child {
+  border-bottom: 0;
+}
+
+.setting-summary span {
+  color: var(--muted-color);
+}
+
+.setting-summary strong {
+  font-weight: 700;
+}
+
+.setting-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--bg-color);
+}
+
+.setting-field .form-label {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.setting-field small {
+  display: block;
+  color: var(--muted-color);
+  font-size: 10px;
+  max-width: 330px;
+}
+
+.setting-input {
+  width: 125px;
+  flex-shrink: 0;
+}
+
+.setting-input .form-control,
+.setting-input .input-group-text {
+  font-size: 12px;
+  border-color: var(--muted-color);
+  background: var(--card-color-mode);
+  color: var(--text-card-title);
+}
+
+.setting-input .form-control:focus {
+  box-shadow: 0 0 0 3px var(--card-color-mode);
+  border-color: var(--bg-color);
+}
+
+/* Mode Cards & Controls */
+.mode-card {
+  width: 100%;
+  height: 100%;
+  min-height: 155px;
+  position: relative;
+  text-align: left;
+  background-color: var(--card-color-mode);
+  border: none;
+  border-radius: 13px;
+  padding: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  transition: 0.2s;
+}
+
+.mode-card:hover {
+  border-color: #a8c9ad;
+  transform: translateY(-2px);
+}
+
+.mode-card strong {
+  font: 700 13px 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-card-title);
+}
+
+.mode-card small {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--text-card-desc);
+  max-width: 210px;
+}
+
+.mode-check {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  color: var(--green);
+  opacity: 0;
+}
+
+.mode-card.selected {
+    background-color: var(--card-color-selected);
+}
+
+.mode-card.selected .mode-check {
+  opacity: 1;
+}
+
+.manual-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0 18px;
+}
+
+.manual-control strong,
+.manual-control small {
+  display: block;
+}
+
+.manual-control strong {
+  font: 700 16px 'Plus Jakarta Sans', sans-serif;
+}
+
+.manual-control small,
+#manualPumpHint {
+  font-size: 10px;
+  color: var(--muted-color);
+  margin-top: 5px;
+}
+
+.pump-toggle {
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 17px;
+  background: #eef2ee;
+  color: #9aa59b;
+  font-size: 23px;
+  transition: 0.2s;
+}
+
+.pump-toggle:enabled {
+  background: #e5f3e8;
+  color: var(--green);
+}
+
+.pump-toggle.is-on {
+  background: var(--green);
+  color: #fff;
+}
+
+.alert-note {
+  display: flex;
+  gap: 9px;
+  padding: 11px 12px;
+  border-radius: 9px;
+  background: var(--card-color-mode);
+  color: var(--muted-color);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.alert-note i {
+  color: #789b7c;
+  font-size: 14px;
+}
+
+.mode-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.summary-mode-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  background: #e9f4fb;
+  color: #3293c9;
+  border-radius: 12px;
+  font-size: 19px;
+}
+
+.mode-summary strong,
+.mode-summary small {
+  display: block;
+}
+
+.mode-summary strong {
+  font-size: 12px;
+}
+
+.mode-summary small {
+  font-size: 10px;
+  color: var(--muted-color);
+  margin-top: 4px;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary-custom {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 10px 15px;
+}
+
+.btn-primary-custom:hover {
+  background: var(--text-color);
+  color: #fff;
+}
+
+.btn-soft {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 11px;
+  padding: 10px;
+  border: 0;
+}
+
+.btn-soft:hover {
+  background-color: var(--muted-color);
+  color: #fff;
+}
+
+.btn-outline-secondary {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--card-color-mode);
+  color: var(--muted-color);
+  border: none;
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* ==========================================
+   9. FOOTER, BOTTOM NAV & TOAST
+   ========================================== */
+.main-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 38px;
+  color: var(--muted-color);
+  font-size: 10px;
+}
+
+.main-footer i {
+  color: #d28b8b;
+}
+
+.bottom-nav {
+  display: none;
+}
+
+.toast {
+  background: #1f5130;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* ==========================================
+   10. MEDIA QUERIES (RESPONSIVE STYLES)
+   ========================================== */
+@media (max-width: 1199.98px) {
+  .content-wrap {
+    padding-left: 26px;
+    padding-right: 26px;
+  }
+  .topbar {
+    padding: 0 26px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .main-content {
+    margin-left: 0;
+  }
+  .topbar {
+    height: 68px;
+    padding: 0 20px;
+  }
+  .content-wrap {
+    padding: 25px 20px 100px;
+  }
+  .mobile-brand {
+    font-size: 18px;
+  }
+  .mobile-brand .brand-mark {
+    width: 31px;
+    height: 31px;
+    font-size: 17px;
+  }
+  .topbar-actions {
+    gap: 10px;
+  }
+  .bottom-nav {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    height: 66px;
+    background: var(--bg-color);
+    border: 2px solid var(--border);
+    border-radius: 17px;
+    box-shadow: 0 8px 30px rgba(25, 50, 30, 0.13);
+    z-index: 30;
+    padding: 5px;
+    backdrop-filter: blur(14px);
+  }
+  .bottom-link {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 100%;
+    text-decoration: none;
+    color: var(--muted-color);
+    font-size: 9px;
+    font-weight: 600;
+    border-radius: 12px;
+  }
+  .bottom-link i {
+    font-size: 18px;
+  }
+  .bottom-link.active {
+    background-color: var(--card-color);
+    color: var(--text-color);
+  }
+  .main-footer {
+    padding: 15px 20px 90px;
+  }
+  .welcome-row h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body {
+    font-size: 13px;
+  }
+  .topbar {
+    padding: 0 15px;
+  }
+  .content-wrap {
+    padding: 21px 15px 95px;
+  }
+  .welcome-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .welcome-row h2 {
+    font-size: 21px;
+  }
+  .last-update {
+    font-size: 10px;
+  }
+  .metric-card,
+  .panel-card {
+    padding: 17px;
+    border-radius: 14px;
+  }
+  .metric-card {
+    min-height: 165px;
+  }
+  .metric-value {
+    font-size: 26px;
+  }
+  .chart-wrap {
+    height: 190px;
+  }
+  .setting-field {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .setting-input {
+    width: 100%;
+  }
+  .main-footer {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 9px;
+  }
+  .connection-pill {
+    font-size: 9px;
+    padding: 7px 9px;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .section-intro h2 {
+    font-size: 22px;
+  }
+}
+
+
+/* ========================================
+   OVERVIEW HERO GRID
+======================================== */
+
+.overview-hero-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(210px, auto));
+    gap: 24px;
+}
+
+/* Hero Banner */
+.hero-banner {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 3;
+    position: relative;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #20372d;
+}
+
+.hero-banner img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-banner-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px;
+    background: linear-gradient(
+        0deg,
+        rgba(8, 25, 18, 0.85) 0%,
+        rgba(8, 25, 18, 0.35) 50%,
+        rgba(8, 25, 18, 0.05) 100%
+    );
+    color: #fff;
+}
+
+.hero-label {
+    color: #78d6a2;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.hero-banner-overlay h3 {
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.hero-banner-overlay p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 420px;
+    margin-bottom: 0;
+}
+
+/* Right Side Metric Cards */
+.overview-metrics {
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    display: grid;
+    grid-template-rows: repeat(3, minmax(210px, auto));
+    gap: 24px;
+    min-width: 0;
+}
+
+.overview-metrics .metric-card {
+    height: 100%;
+    min-height: 210px;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1199.98px) {
+    .overview-hero-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: auto;
+    }
+
+    .hero-banner {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        min-height: 350px;
+    }
+
+    .overview-metrics {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .overview-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .hero-banner {
+        min-height: 280px;
+    }
+
+    .hero-banner-overlay {
+        padding: 24px;
+    }
+
+    .overview-metrics {
+        grid-column: 1;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .overview-metrics .metric-card {
+        min-height: 190px;
+    }
+}

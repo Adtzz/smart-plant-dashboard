@@ -1,0 +1,18 @@
+{
+  "name": "Smart Plant Dashboard",
+  "short_name": "Smart Plant",
+  "description": "Dashboard monitoring dan penyiraman tanaman otomatis.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f8f5",
+  "theme_color": "#166534",
+  "icons": [
+    {
+      "src": "assets/img/plant-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
