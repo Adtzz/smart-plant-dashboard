@@ -98,7 +98,7 @@
             <!-- Right Side Cards -->
             <div class="overview-metrics">
               <!-- Pump Status Card -->
-              <article class="metric-card">
+              <article class="metric-card pump-card">
                 <div class="metric-top">
                   <span class="metric-icon green"><i class="bi bi-power"></i></span>
                   <span class="metric-tag tag-neutral" id="pumpBadge">Standby</span>
@@ -114,26 +114,30 @@
               </article>
               
               <!-- Soil Moisture Card -->
-              <article class="metric-card">
-                <div class="metric-top">
-                  <span class="metric-icon blue"><i class="bi bi-droplet-half"></i></span>
-                  <span class="metric-tag tag-warning" id="moistureCondition">Cukup kering</span>
-                </div>
-                <p class="metric-label">Kelembapan tanah</p>
-                <div class="metric-value">
-                  <span id="moistureValue">42</span><small>%</small>
-                </div>
-                <div class="progress metric-progress">
-                  <div id="moistureBar" class="progress-bar moisture-bar" style="width: 42%"></div>
-                </div>
-                <div class="metric-foot">
-                  <span>0% Kering</span>
-                  <span>100% Basah</span>
-                </div>
+              <article class="metric-card moisture-card">
+                  <div class="metric-top">
+                    <span class="metric-icon blue"><i class="bi bi-droplet-half"></i></span>
+                    <span class="metric-tag tag-warning" id="moistureCondition">Cukup kering</span>
+                  </div>
+
+                  <p class="metric-label">Kelembapan tanah</p>
+
+                  <div class="metric-value">
+                    <span id="moistureValue">42</span><small>%</small>
+                  </div>
+
+                  <div class="progress metric-progress">
+                    <div id="moistureBar" class="progress-bar moisture-bar" style="width: 42%"></div>
+                  </div>
+
+                  <div class="metric-foot">
+                    <span>0% Kering</span>
+                    <span>100% Basah</span>
+                  </div>
               </article>
 
               <!-- Device Card -->
-              <article class="metric-card">
+              <article class="metric-card device-card">
                 <div class="metric-top">
                   <span class="metric-icon purple"><i class="bi bi-cpu"></i></span>
                   <span class="metric-tag tag-neutral" id="deviceBadge">Demo</span>

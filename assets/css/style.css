@@ -29,28 +29,64 @@
    ========================================== */
 /* Tema Pagi */
 [data-theme="morning"] {
+  --hero-overlay: linear-gradient(
+    0deg,
+    rgba(52, 68, 56, 0.75) 0%,
+    rgba(52, 68, 56, 0.30) 50%,
+    rgba(52, 68, 56, 0.03) 100%
+  );
   --bg-color: #FFF8EC;
   --card-color: #FFFFFF;
   --card-color-mode: #FFFFFF;
+  --card-color-selected: #FFF8EC;
   --text-color: #344438;
+  --text-color-title: #344438;
+  --text-color-desc: #849084;
   --muted-color: #849084;
   --primary-color: #82A96B;
-  --border-color: #EAE5D9;
+  --border: #EAE5D9;
+  --card-overlay: linear-gradient(
+    0deg,
+    rgba(52, 68, 56, 0.90) 0%,
+    rgba(52, 68, 56, 0.45) 55%,
+    rgba(52, 68, 56, 0.10) 100%
+  );
 }
 
 /* Tema Siang */
 [data-theme="afternoon"] {
+    --hero-overlay: linear-gradient(
+    0deg,
+    rgba(38, 61, 50, 0.80) 0%,
+    rgba(38, 61, 50, 0.35) 50%,
+    rgba(38, 61, 50, 0.03) 100%
+  );
   --bg-color: #F2F8F4;
   --card-color: #FFFFFF;
   --card-color-mode: #FFFFFF;
+  --card-color-selected: #F2F8F4;
   --text-color: #263D32;
+  --text-card-title: #263D32;
+  --text-card-desc: #82958A;
   --muted-color: #82958A;
   --primary-color: #319B72;
-  --border-color: #DFEAE2;
+  --border: #DFEAE2;
+  --card-overlay: linear-gradient(
+    0deg,
+    rgba(38, 61, 50, 0.90) 0%,
+    rgba(38, 61, 50, 0.45) 55%,
+    rgba(38, 61, 50, 0.10) 100%
+  );
 }
 
 /* Tema Sore */
 [data-theme="evening"] {
+  --hero-overlay: linear-gradient(
+    0deg,
+    rgba(73, 58, 50, 0.80) 0%,
+    rgba(73, 58, 50, 0.35) 50%,
+    rgba(73, 58, 50, 0.03) 100%
+  );
   --bg-color: #FFCC99;
   --card-color: #F5E5CC;
   --card-color-mode: #fff6e7;
@@ -60,11 +96,23 @@
   --text-card-desc: #7D5A46;
   --muted-color: #7d5a46;
   --primary-color: #9a7b4d;
-  --border-color: #F0DFD2;
+  --border: #F0DFD2;
+  --card-overlay: linear-gradient(
+    0deg,
+    rgba(73, 58, 50, 0.90) 0%,
+    rgba(73, 58, 50, 0.45) 55%,
+    rgba(73, 58, 50, 0.10) 100%
+  );
 }
 
 /* Tema Malam */
 [data-theme="night"] {
+  --hero-overlay: linear-gradient(
+    0deg,
+    rgba(8, 25, 18, 0.85) 0%,
+    rgba(8, 25, 18, 0.35) 50%,
+    rgba(8, 25, 18, 0.05) 100%
+  );
   --bg-color: #17251F;
   --card-color: #22342B;
   --card-color-mode: #42544b;
@@ -75,6 +123,12 @@
   --muted-color: #A2B5A7;
   --primary-color: #79C69A;
   --border: #22342B;
+  --card-overlay: linear-gradient(
+    0deg,
+    rgba(8, 25, 18, 0.92) 0%,
+    rgba(8, 25, 18, 0.50) 55%,
+    rgba(8, 25, 18, 0.10) 100%
+  );
 }
 
 /* ==========================================
@@ -1002,12 +1056,7 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     padding: 40px;
-    background: linear-gradient(
-        0deg,
-        rgba(8, 25, 18, 0.85) 0%,
-        rgba(8, 25, 18, 0.35) 50%,
-        rgba(8, 25, 18, 0.05) 100%
-    );
+    background: var(--hero-overlay);
     color: #fff;
 }
 
@@ -1046,6 +1095,53 @@ body {
 .overview-metrics .metric-card {
     height: 100%;
     min-height: 210px;
+}
+
+/* Metric Cards with Background Image (Moisture, Pump, Device) */
+.moisture-card,
+.pump-card,
+.device-card {
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.moisture-card {
+    background-image: url('/assets/img/soil-moisture-bg.jpg');
+}
+
+.pump-card {
+    background-image: url('/assets/img/water-pump.webp');
+}
+
+.device-card {
+    background-image: url('/assets/img/microcontroller.webp');
+}
+
+/* Gradient Overlay */
+.moisture-card::before,
+.pump-card::before,
+.device-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        0deg,
+        rgba(15, 35, 27, 0.90) 0%,
+        rgba(15, 35, 27, 0.45) 55%,
+        rgba(15, 35, 27, 0.10) 100%
+    );
+    z-index: 0;
+}
+
+/* Content above overlay */
+.moisture-card > *,
+.pump-card > *,
+.device-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* ========================================
