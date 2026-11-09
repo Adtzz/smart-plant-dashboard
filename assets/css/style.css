@@ -1109,15 +1109,15 @@ body {
 }
 
 .moisture-card {
-    background-image: url('/assets/img/soil-moisture-bg.webp');
+    background-image: url('../assets/img/soil-moisture-bg.webp');
 }
 
 .pump-card {
-    background-image: url('/assets/img/water-pump.webp');
+    background-image: url('../assets/img/water-pump.webp');
 }
 
 .device-card {
-    background-image: url('/assets/img/microcontroller.webp');
+    background-image: url('../assets/img/microcontroller.webp');
 }
 
 /* Gradient Overlay */
