@@ -205,6 +205,7 @@
             <p class="muted">Pantau pembacaan sensor dan kondisi perangkat.</p>
           </div>
           <div class="row g-3">
+            <!-- Soil Card -->
             <div class="col-12 col-lg-6">
               <article class="panel-card">
                 <div class="panel-header">
@@ -223,7 +224,76 @@
                 <p class="muted small mt-3 mb-0">Nilai sensor aktual akan ditampilkan setelah ESP32 terintegrasi.</p>
               </article>
             </div>
+
+            <!-- Temperature Card -->
             <div class="col-12 col-lg-6">
+              <article class="panel-card">
+                <div class="panel-header">
+                  <div>
+                    <h3>Suhu saat ini</h3>
+                    <p>Nilai sensor suhu lingkungan</p>
+                  </div>
+                  <span class="metric-icon green">
+                    <i class="bi bi-thermometer-half"></i>
+                  </span>
+                </div>
+
+                <div class="monitor-big">
+                  <span id="monitorTemperature">--</span><small>°C</small>
+                </div>
+
+                <p class="muted small mt-3 mb-0">
+                  Data suhu dari Firebase.
+                </p>
+              </article>
+            </div>
+
+            <!-- Humidity Card -->
+            <div class="col-12 col-lg-6">
+              <article class="panel-card">
+                <div class="panel-header">
+                  <div>
+                    <h3>Kelembapan udara</h3>
+                    <p>Nilai sensor kelembapan udara</p>
+                  </div>
+                  <span class="metric-icon blue">
+                    <i class="bi bi-cloud-drizzle"></i>
+                  </span>
+                </div>
+
+                <div class="monitor-big">
+                  <span id="monitorHumidity">--</span><small>%</small>
+                </div>
+
+                <p class="muted small mt-3 mb-0">
+                  Data kelembapan udara dari Firebase.
+                </p>
+              </article>
+            </div>
+            <!-- Pump Status Card -->
+            <div class="col-12 col-lg-6">
+              <article class="panel-card">
+                <div class="panel-header">
+                  <div>
+                    <h3>Status pompa</h3>
+                    <p>Kondisi pompa penyiraman saat ini</p>
+                  </div>
+                  <span class="metric-icon green"><i class="bi bi-power"></i></span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between gap-3">
+                  <div class="monitor-big">
+                    <span id="monitorPumpValue">OFF</span>
+                  </div>
+                  <span class="metric-tag tag-neutral" id="monitorPumpBadge">Standby</span>
+                </div>
+                <p class="muted small mt-3 mb-0" id="monitorPumpDescription">
+                  Pompa tidak sedang menyiram.
+                </p>
+              </article>
+            </div>
+
+            <!-- card status -->
+            <div class="col-12 col-lg-12">
               <article class="panel-card">
                 <div class="panel-header">
                   <div>
@@ -444,6 +514,6 @@
   <!-- JavaScript Libraries & Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script src="assets/js/script.js"></script>
+  <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>

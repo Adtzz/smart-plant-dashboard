@@ -91,9 +91,12 @@
   --card-color: #F5E5CC;
   --card-color-mode: #fff6e7;
   --card-color-selected: #FFCC99;
-  --text-color: #493A32;
+  --text-color: #fff;
+  --text-card-title:#fff;
+  --text-card-desc: #fff;
+  /* --text-color: #493A32;
   --text-card-title:#493A32;
-  --text-card-desc: #7D5A46;
+  --text-card-desc: #7D5A46; */
   --muted-color: #7d5a46;
   --primary-color: #9a7b4d;
   --border: #F0DFD2;
@@ -1109,15 +1112,15 @@ body {
 }
 
 .moisture-card {
-    background-image: url('../assets/img/soil-moisture-bg.webp');
+    background-image: url('/assets/img/soil-moisture-bg.webp');
 }
 
 .pump-card {
-    background-image: url('../assets/img/water-pump.webp');
+    background-image: url('/assets/img/water-pump.webp');
 }
 
 .device-card {
-    background-image: url('../assets/img/microcontroller.webp');
+    background-image: url('/assets/img/microcontroller.webp');
 }
 
 /* Gradient Overlay */
@@ -1127,12 +1130,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        0deg,
-        rgba(15, 35, 27, 0.90) 0%,
-        rgba(15, 35, 27, 0.45) 55%,
-        rgba(15, 35, 27, 0.10) 100%
-    );
+    background: var(--card-overlay);
     z-index: 0;
 }
 

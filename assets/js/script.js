@@ -1,3 +1,13 @@
+// Import koneksi Firebase
+import { db } from "./firebase.js";
+
+// Import fungsi Realtime Database
+import {
+    ref,
+    set,
+    onValue
+} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-database.js";
+
 /* Smart Plant Dashboard V1
  * Saat ini menggunakan data simulasi. Integrasi ESP32 akan mengganti fungsi demo
  * dengan pemanggilan HTTP API pada tahap berikutnya.
@@ -30,9 +40,13 @@ function render() {
   $('moistureCondition').textContent = label;
   $('moistureCondition').className = `metric-tag ${tagClass}`;
   $('pumpValue').textContent = state.pumpOn ? 'ON' : 'OFF';
+  $('monitorPumpValue').textContent = state.pumpOn ? 'ON' : 'OFF';
   $('pumpBadge').textContent = state.pumpOn ? 'Menyiram' : 'Standby';
   $('pumpBadge').className = `metric-tag ${state.pumpOn ? 'tag-warning' : 'tag-neutral'}`;
+  $('monitorPumpBadge').textContent = state.pumpOn ? 'Menyiram' : 'Standby';
+  $('monitorPumpBadge').className = `metric-tag ${state.pumpOn ? 'tag-warning' : 'tag-neutral'}`;
   $('pumpDescription').textContent = state.pumpOn ? 'Pompa sedang aktif (simulasi).' : 'Pompa tidak sedang menyiram.';
+  $('monitorPumpDescription').textContent = state.pumpOn ? 'Pompa sedang aktif (simulasi).' : 'Pompa tidak sedang menyiram.';
   $('manualPumpState').textContent = state.pumpOn ? 'Pompa ON' : 'Pompa OFF';
   $('pumpToggle').classList.toggle('is-on', state.pumpOn);
   $('pumpToggle').setAttribute('aria-pressed', String(state.pumpOn));
@@ -69,15 +83,26 @@ document.querySelectorAll('[data-section]').forEach(link => link.addEventListene
   e.preventDefault(); showSection(link.dataset.section);
 }));
 document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', () => showSection(btn.dataset.go)));
-document.querySelectorAll('.mode-card').forEach(btn => btn.addEventListener('click', () => {
-  state.mode = btn.dataset.mode;
-  if (state.mode !== 'manual') state.pumpOn = false;
-  render(); notify(`Mode ${modeLabel(state.mode)} dipilih.`);
-}));
+
+document.querySelectorAll('.mode-card').forEach(btn => {
+    btn.addEventListener('click', () => {
+        state.mode = btn.dataset.mode;
+
+        render();
+
+        notify(`Mode ${modeLabel(state.mode)} dipilih.`);
+    });
+});
+// $('pumpToggle').addEventListener('click', () => {
+//   if (state.mode !== 'manual') return;
+//   state.pumpOn = !state.pumpOn; render();
+//   notify(state.pumpOn ? 'Pompa dinyalakan (simulasi).' : 'Pompa dimatikan (simulasi).');
+// });
+
 $('pumpToggle').addEventListener('click', () => {
-  if (state.mode !== 'manual') return;
-  state.pumpOn = !state.pumpOn; render();
-  notify(state.pumpOn ? 'Pompa dinyalakan (simulasi).' : 'Pompa dimatikan (simulasi).');
+    if (state.mode !== 'manual') return;
+
+    setPumpCommand(!state.pumpOn);
 });
 
 function syncSettingsInputs() {
@@ -167,3 +192,97 @@ updateTheme();
 
 // Periksa kembali setiap satu menit
 setInterval(updateTheme, 60000);
+
+
+// ===================================
+// SMART PLANT - FIREBASE REALTIME
+// ===================================
+
+// Referensi data sensor
+const sensorRef = ref(db, "smartPlant/sensorData");
+
+// Referensi status perangkat
+const deviceRef = ref(db, "smartPlant/device");
+
+// Membaca data sensor secara realtime
+onValue(sensorRef, (snapshot) => {
+    const data = snapshot.val();
+
+    if (!data) return;
+
+    // Update Soil Moisture
+    if (Number.isFinite(data.soilMoisture)) {
+        state.moisture = data.soilMoisture;
+        render();
+    }
+
+    // Update Temperature
+    if (Number.isFinite(data.temperature)) {
+        $("monitorTemperature").textContent = data.temperature;
+    }
+
+    // Update Humidity
+    if (Number.isFinite(data.humidity)) {
+        $("monitorHumidity").textContent = data.humidity;
+    }
+
+    // Update waktu pembacaan terakhir
+    if (data.updatedAt) {
+        $("lastUpdate").textContent =
+            new Date(data.updatedAt).toLocaleTimeString("id-ID");
+    }
+
+    console.log("Data sensor diterima:", data);
+});
+
+// Membaca status perangkat
+onValue(deviceRef, (snapshot) => {
+    const data = snapshot.val();
+
+    if (!data) return;
+
+    const isOnline = data.status === "online";
+
+    $("deviceStatus").textContent = isOnline
+        ? "Terhubung"
+        : "Tidak terhubung";
+
+    $("deviceBadge").textContent = isOnline
+        ? "Online"
+        : "Offline";
+
+    $("apiStatus").textContent = "Terhubung ke Firebase";
+
+    console.log("Status perangkat:", data.status);
+});
+
+const pumpRef = ref(db, "smartPlant/control/pumpCommand");
+
+// Mengirim perintah pompa ke Firebase
+async function setPumpCommand(value) {
+    try {
+        await set(pumpRef, value);
+
+        notify(
+            value
+                ? "Perintah pompa ON dikirim."
+                : "Perintah pompa OFF dikirim."
+        );
+
+    } catch (error) {
+        console.error("Gagal mengirim perintah pompa:", error);
+        notify("Gagal mengirim perintah pompa ke Firebase.");
+    }
+}
+
+// Membaca status pompa dari Firebase
+onValue(pumpRef, (snapshot) => {
+    const pumpCommand = snapshot.val();
+
+    if (typeof pumpCommand === "boolean") {
+        state.pumpOn = pumpCommand;
+        render();
+    }
+
+    console.log("Status pompa:", pumpCommand);
+});
